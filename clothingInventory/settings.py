@@ -131,3 +131,6 @@ CACHES = {
     },
 }
 USER_AGENTS_CACHE = 'default'
+
+# Django 使用 iframe 无法显示的问题
+X_FRAME_OPTIONS = 'SAMEORIGIN'
