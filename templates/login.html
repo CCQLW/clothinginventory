@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>登录界面</title>
+    <script src="bootstrap-4.6.1-dist/jquery.min.js"></script>
+    <link rel="Stylesheet " href="./css/login.css">
+    <script type="text/javascript" src="./js/login.js"></script>
+</head>
+<body>
+<div class="login-wrap">
+    <div class="login-html">
+        <input id="tab-1" type="radio" name="tab" class="sign-in" checked><label for="tab-1" class="tab">登录</label>
+        <input id="tab-2" type="radio" name="tab" class="sign-up"><label for="tab-2" class="tab">修改密码</label>
+        <div class="login-form">
+            <div class="sign-in-htm">
+                <div class="group">
+                    <label for="user" class="label">Username</label>
+                    <input id="user" type="text" class="input">
+                </div>
+                <div class="group">
+                    <label for="pass" class="label">Password</label>
+                    <input id="pass" type="password" class="input" data-type="password">
+                </div>
+                <div class="group">
+                    <input id="check" type="checkbox" class="check">
+                    <label for="check"><span class="icon"></span>记住用户和密码</label>
+                </div>
+                <div class="group">
+                    <input type="submit" class="button submit" value="登录">
+                </div>
+                <div class="hr"></div>
+                <div class="foot-lnk">
+                    <a href="/">忘记密码?</a>
+                </div>
+            </div>
+            <div class="sign-up-htm">
+                <div class="group">
+                    <label for="user" class="label">Username</label>
+                    <input id="changeuser" type="text" class="input">
+                </div>
+                <div class="group">
+                    <label for="pass" class="label">密码</label>
+                    <input id="changepasswd" type="password" class="input" data-type="password">
+                </div>
+                <div class="group">
+                    <label for="pass" class="label">新密码</label>
+                    <input id="changeaginpasswd" type="password" class="input" data-type="password">
+                </div>
+                <div class="group">
+                    <label for="pass" class="label">重复密码</label>
+                    <input id="changeaginpasswd2" type="password" class="input" data-type="password">
+                </div>
+                <div class="group">
+                    <input type="submit" class="button" value="提交" id="change">
+                </div>
+                <div class="hr"></div>
+                <div class="foot-lnk">
+                    <label for="tab-1">返回</label>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    login_in = document.querySelector('.button.submit')
+    login_in.addEventListener('click', signin);
+
+    passwd = document.querySelector('#pass')
+    passwd.addEventListener('keydown', function (e) {
+        if (e.key === 'Enter') {
+            login_in.click();
+        }
+    });
+
+    username = document.querySelector('#user');
+    username.addEventListener('keydown', function (e) {
+        if (e.key === 'Enter') {
+            passwd.focus();
+        }
+    });
+
+    $(function () {
+        var check = document.querySelector('#check');
+        if (localStorage.getItem('username') && localStorage.getItem('password')) {
+            username.value = localStorage.getItem('username');
+            passwd.value = localStorage.getItem('password');
+            check.checked = true;
+            passwd.focus();
+        }
+        check.addEventListener('change', function () {
+            if (check.checked) {
+                localStorage.setItem('username', $('#user').val());
+                localStorage.setItem('password', $('#pass').val());
+            } else {
+                localStorage.removeItem('username');
+                localStorage.removeItem('password');
+            }
+        });
+    })
+    $("#change").click(function () {
+        $.ajax({
+            url: '/user/login',
+            type: 'post',
+            contentType: 'application/json',
+            data: JSON.stringify({
+                username: $("#changeuser").val(),
+                passwd: $("#changepasswd").val(),
+            }),
+            success: function (data) {
+                change(data.result);
+            }
+        })
+
+    })
+</script>
+</body>
+</html>

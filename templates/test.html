@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="/static/js/jquery.min.js"></script>
+    <link rel="stylesheet" href="/static/css/bootstrap.min.css">
+
+    <script src="/static/js/jquery.min.js"></script>
+    <link rel="Stylesheet " href="/static/css/bootstrap-3.min.css">
+    <script type="text/javascript" src="/static/js/bootstrap-3.js"></script>
+</head>
+<body>
+
+<header>
+    <nav class="navbar navbar-default">
+        <div class="container-fluid">
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                <form class="navbar-form navbar-left">
+                    <div class="form-group">
+                        货号：
+                        <select class="form-control custom-select" id="inputGroupSelect01">
+                            <option selected></option>
+                           <option value="1">One</option>
+<!--                            <option value="2">Two</option>-->
+<!--                            <option value="3">Three</option>-->
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        货品名称：
+                        <input type="text" class="form-control warehouse" placeholder="货品名称" id="tradeName">
+                    </div>
+                    <div class="form-group">
+                        色号：
+                        <input type="text" class="form-control agent" placeholder="色号" id="colorNo">
+                    </div>
+                    <div class="form-group">
+                        尺码：
+                        <input type="text" class="form-control whereabouts" placeholder="尺码" id="size">
+                    </div>
+                    <button type="button" class="btn btn-default" id="search">搜索</button>
+                </form>
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <button type="button" class="btn btn-success btn-lg" data-toggle="modal" data-target="#myModal">
+                            新增
+                        </button>
+                    </li>
+                </ul>
+
+            </div><!-- /.navbar-collapse -->
+        </div><!-- /.container-fluid -->
+    </nav>
+</header>
+
+
+</body>
+<script>
+    $(function () {
+        $.ajax({
+            url :'/article_number/getAll',
+            success: function(data) {
+                var list = data.data;
+                var html = '';
+                for (var i = 0; i < list.length; i++) {
+                    html += '<option value="' + list[i].id + '">' + list[i].articleNumber + '</option>';
+                }
+                $('#inputGroupSelect01').append(html);
+            },
+            async: false
+        });
+    })
+</script>
+</html>
